@@ -44,7 +44,6 @@ void
 avr_interrupt_reset(
 		avr_t * avr )
 {
-	printf("%s\n", __func__);
 	avr_int_table_p table = &avr->interrupts;
 	table->pending_r = table->pending_w = 0;
 	avr->interrupt_state = 0;

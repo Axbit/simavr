@@ -80,7 +80,7 @@ endif
 
 ${OBJ}/${target}.elf	: ${OBJ}/${target}.o
 
-${target}	: ${OBJ}/${target}.elf
+${target}	: ${OBJ}/${target}.elf ${OBJ}/${target}.o ${OBJ}/libsimavr.a
 
 # FIXME uname -o doesn't work on BSD
 #ifeq (${shell uname -o}, Msys)
@@ -149,9 +149,9 @@ config: ${OBJ}/cores.deps sim_core_config.h sim_core_decl.h
 # to be verified
 #
 ifeq ($(V), 1)
-DEBUGLOG=/tmp/simavr_conf.log
+DEBUGLOG=c:/tmp/simavr_conf.log
 else
-DEBUGLOG=/dev/null
+DEBUGLOG=c:/tmp/simavr_conf.log
 endif
 sim_core_config.h ${OBJ}/cores.deps: $(cores) Makefile
 	@echo CONF $@

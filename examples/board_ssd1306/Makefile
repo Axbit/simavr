@@ -49,6 +49,7 @@ ${board} : ${OBJ}/ssd1306_glut.o
 ${board} : ${OBJ}/${target}.o
 
 ${target}: ${board}
+	ln -sf $< $@
 	@echo $@ done
 
 clean: clean-${OBJ}

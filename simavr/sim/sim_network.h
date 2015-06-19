@@ -40,7 +40,8 @@ extern "C" {
 	setsockopt( (sockfd), (level), (optname), (void *)(optval), (optlen))
 #define recv(sockfd, buf, len, flags) \
 	(ssize_t)recv( (sockfd), (char *)(buf), (len), (flags))
-#define sleep(x) Sleep((x)*1000)
+
+//#define sleep(x) Sleep(x)
 
 static inline int network_init()
 {

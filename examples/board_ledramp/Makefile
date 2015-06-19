@@ -43,6 +43,7 @@ ${board} : ${OBJ}/button.o
 ${board} : ${OBJ}/${target}.o
 
 ${target}: ${board}
+	ln -sf $< $@
 	@echo $@ done
 
 clean: clean-${OBJ}
