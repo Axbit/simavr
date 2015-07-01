@@ -74,6 +74,10 @@ struct mcu_t {
 #define PB3 PORTB3
 #endif
 
+#ifndef RAMPZ
+#define RAMPZ 0x00
+#endif
+
 const struct mcu_t SIM_CORENAME = {
 	.core = {
 		.mmcu = SIM_MMCU,
@@ -81,6 +85,7 @@ const struct mcu_t SIM_CORENAME = {
 
 		.init = mx4_init,
 		.reset = mx4_reset,
+		.rampz = RAMPZ,	// extended program memory access
 	},
 	AVR_EEPROM_DECLARE(EE_READY_vect),
 	AVR_SELFPROG_DECLARE(SPMCSR, SPMEN, SPM_READY_vect),
