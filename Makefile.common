@@ -39,8 +39,8 @@ SIMAVR		:= ${shell for p in . .. ../.. ../../..;do test -d $$p/simavr/sim && ech
 # get the first character of what the compiler says it is, unless it's 'x86_64' doh
 ARCH 		:= ${shell $(CC) -dumpmachine | sed -e 's/^x/i/' -e 's/\(.\).*/\1/'}
 
-CFLAGS		+= -O2
-CFLAGS		+= -g -w
+CFLAGS		+= -O2 -Wall
+CFLAGS		+= -g 
 CORE_CFLAGS	= -nostdinc -DAVR_CORE=1
 
 
@@ -93,7 +93,6 @@ LDFLAGS      += -lws2_32
 
 # --mcall-prologues can be used here, but messes up debugging a little
 %.axf: %.c 
-	@echo TODO ${AVR}gcc  ${<}
 	@part=${<} ; part=$${part/_*}; \
 	${AVR}gcc -Wall -gdwarf-2 -Os -std=gnu99 \
 			-mmcu=$$part \
@@ -113,7 +112,7 @@ ifeq ($(V),1)
 		${AVR_CPPFLAGS} \
 		$<  -c -o $@
 else
-	@$(CC) $(CPPFLAGS) $(CFLAGS) $(CFLAGS) $(CORE_CFLAGS) -MMD \
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(CFLAGS) $(CORE_CFLAGS) -MMD \
 		${AVR_CPPFLAGS} \
 		$<  -c -o $@
 	@echo CORE $<
@@ -124,7 +123,7 @@ ifeq ($(V),1)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD \
 		$<  -c -o $@
 else
-	@$(CC) $(CPPFLAGS) $(CFLAGS) -MMD \
+	$(CC) $(CPPFLAGS) $(CFLAGS) -MMD \
 		$<  -c -o $@
 	@echo CC $<
 endif

@@ -39,7 +39,7 @@ static void avr_flash_write(avr_t * avr, avr_io_addr_t addr, uint8_t v, void * p
 
 	avr_core_watch_write(avr, addr, v);
 
-//	printf("** avr_flash_write %02x\n", v);
+	//printf("** avr_flash_write(0x%02x) val 0x%02x\n",addr, v);
 
 	if (avr_regbit_get(avr, p->selfprgen))
 		avr_cycle_timer_register(avr, 4, avr_progen_clear, p); // 4 cycles is very little!

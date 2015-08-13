@@ -322,13 +322,14 @@ static void avr_timer_write_ocr(struct avr_t * avr, avr_io_addr_t addr, uint8_t 
 			avr_raise_irq(timer->io.irq + TIMER_IRQ_OUT_PWM1, _timer_get_ocr(timer, AVR_TIMER_COMPB));
 			break;
 		case avr_timer_wgm_fast_pwm:
+		case 6:    // TODO PSHUSTAD, this is what nofence Buzzer sends us.
 			if (oldv != _timer_get_comp_ocr(avr, comp))
 				avr_timer_reconfigure(timer);
 			avr_raise_irq(timer->io.irq + TIMER_IRQ_OUT_PWM0, _timer_get_ocr(timer, AVR_TIMER_COMPA));
 			avr_raise_irq(timer->io.irq + TIMER_IRQ_OUT_PWM1, _timer_get_ocr(timer, AVR_TIMER_COMPB));
 			break;
 		default:
-			AVR_LOG(avr, LOG_WARNING, "TIMER: %s-%c mode %d UNSUPPORTED\n", __FUNCTION__, timer->name, timer->mode.kind);
+			AVR_LOG(avr, LOG_WARNING, "TIMER: %s-%c mode %d UNSUPPORTED\n", __FUNCTION__, timer->name, timer->wgm_op_mode_kind);
 			avr_timer_reconfigure(timer);
 			break;
 	}

@@ -16,6 +16,7 @@
 #	You should have received a copy of the GNU General Public License
 #	along with simavr.  If not, see <http://www.gnu.org/licenses/>.
 
+
 SHELL 			:= ${shell which bash}
 SIMAVR_VERSION	:= ${shell \
 	{ git log -1 --tags --simplify-by-decoration --pretty="format:%d"|\
@@ -25,7 +26,7 @@ SIMAVR_REVISION	= 2
 
 target	= run_avr
 
-CFLAGS	+= -Werror
+#CFLAGS	+= -Werror
 # tracing is useful especialy if you develop simavr core.
 # it otherwise eat quite a bit of few cycles, even disabled
 #CFLAGS	+= -DCONFIG_SIMAVR_TRACE=1
