@@ -122,8 +122,9 @@ void avr_reset(avr_t * avr)
 	AVR_LOG(avr, LOG_TRACE, "%s reset\n", avr->mmcu);
 
 	avr->state = cpu_Running;
-	for(int i = 0x20; i < noof_ios; i++)
-		avr->data[i] = 0;
+	// TODO PSHUSTAD, RAM will not automatically be cleared on a reset ??
+	//for(int i = 0x20; i < noof_ios; i++)
+	//	avr->data[i] = 0;
 	_avr_sp_set(avr, avr->ramend);
 	avr->pc = 0;
 	for (int i = 0; i < 8; i++)
