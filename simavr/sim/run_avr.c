@@ -34,12 +34,20 @@
 
 void display_usage(char * app)
 {
-	printf("Usage: %s [-t] [-g] [-v] [-m <device>] [-f <frequency>] firmware\n", app);
-	printf("       -t: Run full scale decoder trace\n"
-		   "       -g: Listen for gdb connection on port 1234\n"
-		   "       -ff: Load next .hex file as flash\n"
-		   "       -ee: Load next .hex file as eeprom\n"
-		   "       -v: Raise verbosity level (can be passed more than once)\n"
+	printf("Usage: %s [--list-cores] [--help] [-t] [-g] [-v] [-m <device>] [-f <frequency>] firmware\n", app);
+        printf(    "       --list-cores      List all supported AVR cores and exit\n"
+		   "       --help, -h        Display this usage message and exit\n"
+		   "       -trace, -t        Run full scale decoder trace\n"
+                   "       -ti <vector>      Add trace vector at <vector>\n"
+		   "       -gdb, -g          Listen for gdb connection on port 1234\n"
+		   "       -ff               Load next .hex file as flash\n"
+		   "       -ee               Load next .hex file as eeprom\n"
+		   "       -v                Raise verbosity level (can be passed more than once)\n");
+	exit(1);
+}
+
+void list_cores() {
+	printf(
 		   "   Supported AVR cores:\n");
 	for (int i = 0; avr_kind[i]; i++) {
 		printf("       ");
@@ -78,7 +86,9 @@ int main(int argc, char *argv[])
 		display_usage(basename(argv[0]));
 
 	for (int pi = 1; pi < argc; pi++) {
-		if (!strcmp(argv[pi], "-h") || !strcmp(argv[pi], "-help")) {
+		if (!strcmp(argv[pi], "--list-cores")) {
+			list_cores();
+		} else if (!strcmp(argv[pi], "-h") || !strcmp(argv[pi], "--help")) {
 			display_usage(basename(argv[0]));
 		} else if (!strcmp(argv[pi], "-m") || !strcmp(argv[pi], "-mcu")) {
 			if (pi < argc-1)
@@ -102,7 +112,7 @@ int main(int argc, char *argv[])
 		} else if (!strcmp(argv[pi], "-ee")) {
 			loadBase = AVR_SEGMENT_OFFSET_EEPROM;
 		} else if (!strcmp(argv[pi], "-ff")) {
-			loadBase = AVR_SEGMENT_OFFSET_FLASH;			
+			loadBase = AVR_SEGMENT_OFFSET_FLASH;
 		} else if (argv[pi][0] != '-') {
 			char * filename = argv[pi];
 			char * suffix = strrchr(filename, '.');
@@ -114,7 +124,7 @@ int main(int argc, char *argv[])
 				ihex_chunk_p chunk = NULL;
 				int cnt = read_ihex_chunks(filename, &chunk);
 				if (cnt <= 0) {
-					fprintf(stderr, "%s: Unable to load IHEX file %s\n", 
+					fprintf(stderr, "%s: Unable to load IHEX file %s\n",
 						argv[0], argv[pi]);
 					exit(1);
 				}
@@ -179,9 +189,9 @@ int main(int argc, char *argv[])
 
 	for (;;) {
 		int state = avr_run(avr);
-		if ( state == cpu_Done || state == cpu_Crashed)
+		if (state == cpu_Done || state == cpu_Crashed)
 			break;
 	}
-	
+
 	avr_terminate(avr);
 }

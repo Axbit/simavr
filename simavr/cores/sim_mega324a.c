@@ -1,5 +1,5 @@
 /*
-	sim_mega88.c
+	sim_mega324.c
 
 	Copyright 2008, 2009 Michel Pollet <buserror@gmail.com>
 
@@ -21,41 +21,22 @@
 
 #include "sim_avr.h"
 
-#define SIM_VECTOR_SIZE	2
-#define SIM_MMCU		"atmega8"
-#define SIM_CORENAME	mcu_mega8
-
-#define ICP_PORT	PORTB
-#define ICP_PIN		0
-
-#define OC1A_PORT	PORTB
-#define OC1A_PIN	1
-
-#define OC1B_PORT	PORTB
-#define OC1B_PIN	2
-
-#define OC2_PORT	PORTB
-#define OC2_PIN		3
-
-#define EXT_CLOCK0_PORT	PORTD
-#define EXT_CLOCK0_PIN		4
-
-#define EXT_CLOCK1_PORT	PORTD
-#define EXT_CLOCK1_PIN		5
+#define SIM_MMCU		"atmega324a"
+#define SIM_CORENAME	mcu_mega324a
 
 #define _AVR_IO_H_
 #define __ASSEMBLER__
-#include "avr/iom8.h"
+#include "avr/iom324pa.h"
 // instantiate the new core
-#include "sim_megax.h"
+#include "sim_megax4.h"
 
 static avr_t * make()
 {
 	return avr_core_allocate(&SIM_CORENAME.core, sizeof(struct mcu_t));
 }
 
-avr_kind_t mega8 = {
-	.names = { "atmega8", "atmega8l" },
+avr_kind_t mega324a = {
+	.names = { "atmega324a", "atmega324pa" },
 	.make = make
 };
 

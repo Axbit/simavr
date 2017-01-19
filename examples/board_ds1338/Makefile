@@ -1,5 +1,5 @@
-#
-# 	Copyright 2008, 2009 Michel Pollet <buserror@gmail.com>
+#	Copyright 2014 Doug Szumski <d.s.szumski@gmail.com>
+#	Copyright 2008-2011 Michel Pollet <buserror@gmail.com>
 #
 #	This file is part of simavr.
 #
@@ -16,9 +16,9 @@
 #	You should have received a copy of the GNU General Public License
 #	along with simavr.  If not, see <http://www.gnu.org/licenses/>.
 
-target=	simduino
-firm_src = ${wildcard atmega*.c}
-firmware = ${firm_src:.c=.hex}
+target=	ds1338demo
+firm_src = ${wildcard at*${board}.c}
+firmware = ${firm_src:.c=.axf}
 simavr = ../../
 
 IPATH = .
@@ -29,21 +29,22 @@ IPATH += ${simavr}/simavr/sim
 VPATH = .
 VPATH += ../parts
 
-LDFLAGS += -lpthread -lutil
+LDFLAGS += -lpthread
 
-include ../Makefile.opengl
+all: obj atmega32_ds1338.axf ${target}
 
-all: obj ${firmware} ${target}
+atmega32_ds1338.axf: atmega32_ds1338.c ds1338.c twimaster.c
 
 include ${simavr}/Makefile.common
 
 board = ${OBJ}/${target}.elf
 
-${board} : ${OBJ}/uart_pty.o
+${board} : ${OBJ}/ac_input.o
+${board} : ${OBJ}/ds1338_virt.o
 ${board} : ${OBJ}/${target}.o
 
 ${target}: ${board}
 	@echo $@ done
 
 clean: clean-${OBJ}
-	rm -rf *.a *.axf ${target} *.vcd *.hex
+	rm -rf *.hex *.a *.axf ${target} *.vcd .*.swo .*.swp .*.swm .*.swn
