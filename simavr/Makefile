@@ -150,9 +150,9 @@ config: ${OBJ}/cores.deps sim_core_config.h sim_core_decl.h
 # to be verified
 #
 ifeq ($(V), 1)
-DEBUGLOG=c:/tmp/simavr_conf.log
+DEBUGLOG=/tmp/simavr_conf.log
 else
-DEBUGLOG=c:/tmp/simavr_conf.log
+DEBUGLOG=/tmp/simavr_conf.log
 endif
 sim_core_config.h ${OBJ}/cores.deps: $(cores) Makefile
 	@echo CONF $@
