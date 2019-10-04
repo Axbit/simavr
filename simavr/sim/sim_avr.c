@@ -280,10 +280,13 @@ void avr_callback_run_gdb(avr_t * avr)
 
 void avr_callback_sleep_raw(avr_t * avr, avr_cycle_count_t howLong)
 {
+#ifndef NO_USLEEP
 	uint32_t usec = avr_pending_sleep_usec(avr, howLong);
 	if (usec > 0) {
 		usleep(usec);
 	}
+#endif
+
 }
 
 void avr_callback_run_raw(avr_t * avr)
